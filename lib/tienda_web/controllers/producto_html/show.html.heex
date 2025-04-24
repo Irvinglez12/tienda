@@ -1,0 +1,17 @@
+<.header>
+  Producto {@producto.id}
+  <:subtitle>Este es un registro de producto en tu base de datos.</:subtitle>
+  <:actions>
+    <.link href={~p"/productos/#{@producto}/edit"}>
+      <.button>Editar Producto</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Descripción">{@producto.descripcion}</:item>
+  <:item title="Precio">{@producto.precio}</:item>
+  <:item title="Categoría">{@producto.categoria.descripcion}</:item>
+</.list>
+
+<.back navigate={~p"/productos"}>Volver a productos</.back>

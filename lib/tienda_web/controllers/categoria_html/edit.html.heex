@@ -1,0 +1,8 @@
+<.header>
+  Editar Categoría {@categoria.id_categoria}
+  <:subtitle>Usa este formulario para modificar una categoría en la base de datos.</:subtitle>
+</.header>
+
+<.categoria_form changeset={@changeset} action={~p"/categorias/#{@categoria}"} />
+
+<.back navigate={~p"/categorias"}>Regresar a categorías</.back>

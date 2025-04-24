@@ -1,0 +1,33 @@
+<.header>
+  Lista de Productos
+  <:actions>
+    <.link href={~p"/productos/new"}>
+      <.button>Nuevo Producto</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table id="productos" rows={@productos} row_click={&JS.navigate(~p"/productos/#{&1}")}>
+  <:col :let={producto} label="Descripción">{producto.descripcion}</:col>
+  <:col :let={producto} label="Precio">{producto.precio}</:col>
+  <:col :let={producto} label="Categoría">{producto.categoria.descripcion}</:col>
+
+  <:action :let={producto}>
+    <div class="sr-only">
+      <.link navigate={~p"/productos/#{producto}"}>Ver</.link>
+    </div>
+    <.link navigate={~p"/productos/#{producto}/edit"}>Editar</.link>
+  </:action>
+  <:action :let={producto}>
+    <.link href={~p"/productos/#{producto}"} method="delete">
+      Eliminar
+    </.link>
+  </:action>
+</.table>
+
+<!-- Botón para ir al índice de categorías -->
+<div class="mt-4">
+  <.link href={~p"/categorias"}>
+    <.button>Ir al Índice de Categorías</.button>
+  </.link>
+</div>

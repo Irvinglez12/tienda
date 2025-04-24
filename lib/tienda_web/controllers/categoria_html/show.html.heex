@@ -1,0 +1,15 @@
+<.header>
+  Categoría {@categoria.id_categoria}
+  <:subtitle>Este es un registro de categoría en la base de datos.</:subtitle>
+  <:actions>
+    <.link href={~p"/categorias/#{@categoria}/edit"}>
+      <.button>Editar categoría</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Descripción">{@categoria.descripcion}</:item>
+</.list>
+
+<.back navigate={~p"/categorias"}>Regresar a categorías</.back>
