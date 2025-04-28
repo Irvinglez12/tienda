@@ -17,7 +17,8 @@ COPY . .
 RUN mix deps.get
 
 # Compilar el proyecto
-RUN mix compile
+RUN HEX_HTTP_CONCURRENCY=1 HEX_HTTP_TIMEOUT=120 mix deps.get
+
 
 # Si tienes carpeta assets, instalar dependencias JS (opcional pero recomendable)
 WORKDIR /app/assets
