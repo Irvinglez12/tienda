@@ -1,42 +1,31 @@
-pipeline {
-  agent any
+FROM elixir:1.14-alpine
 
-  stages {
-    stage('Clonar repositorio') {
-      steps {
-        git branch: 'main', url: 'https://github.com/Irvinglez12/tienda.git'
-      }
-    }
+# Instalar Hex y Rebar (para deps de Elixir)
+RUN mix local.hex --force && \
+    mix local.rebar --force
 
-    stage('Construir imagen') {
-      steps {
-        sh 'docker-compose build'
-      }
-    }
+# Instalar Node.js, npm y herramientas necesarias
+RUN apk add --no-cache nodejs npm git build-base
 
-    stage('Levantar servicios') {
-      steps {
-        sh 'docker-compose up -d'
-      }
-    }
+# Crear carpeta de trabajo
+WORKDIR /app
 
-    stage('Pruebas Laravel') {
-      steps {
-        sh 'docker-compose exec laravel php artisan test || true'
-      }
-    }
+# Copiar el proyecto
+COPY . .
 
-    stage('Pruebas Phoenix') {
-      steps {
-        sh 'docker-compose exec phoenix mix test || true'
-      }
-    }
-  }
+# Instalar dependencias Elixir
+RUN mix deps.get
 
-  post {
-    always {
-      echo 'Finalizando...'
-      sh 'docker-compose down'
-    }
-  }
-}
+# Compilar el proyecto
+RUN mix compile
+
+# Si tienes carpeta assets, instalar dependencias JS (opcional pero recomendable)
+WORKDIR /app/assets
+RUN npm install
+WORKDIR /app
+
+# Exponer el puerto de Phoenix
+EXPOSE 4000
+
+# Comando por default
+CMD ["mix", "phx.server"]
