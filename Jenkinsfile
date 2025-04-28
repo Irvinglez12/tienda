@@ -4,7 +4,7 @@ pipeline {
   stages {
     stage('Clonar repositorio') {
       steps {
-        git 'https://github.com/Irvinglez12/tienda.git' // ← cambia por tu repo real
+        git branch: 'main', url: 'https://github.com/Irvinglez12/tienda.git'
       }
     }
 
@@ -20,9 +20,15 @@ pipeline {
       }
     }
 
-    stage('Pruebas') {
+    stage('Pruebas Laravel') {
       steps {
-        sh 'docker-compose exec app mix test || true'
+        sh 'docker-compose exec laravel php artisan test || true'
+      }
+    }
+
+    stage('Pruebas Phoenix') {
+      steps {
+        sh 'docker-compose exec phoenix mix test || true'
       }
     }
   }
