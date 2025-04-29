@@ -10,13 +10,25 @@ pipeline {
 
     stage('Construir imagen') {
       steps {
-        sh 'docker-compose build'
+        script {
+          try {
+            sh 'docker-compose build'
+          } catch (err) {
+            error "❌ Error: No se pudo construir la imagen. Verifica permisos de Docker."
+          }
+        }
       }
     }
 
     stage('Levantar servicios') {
       steps {
-        sh 'docker-compose up -d'
+        script {
+          try {
+            sh 'docker-compose up -d'
+          } catch (err) {
+            error "❌ Error: No se pudieron levantar los servicios. Verifica permisos de Docker."
+          }
+        }
       }
     }
 
@@ -36,7 +48,13 @@ pipeline {
   post {
     always {
       echo 'Finalizando...'
-      sh 'docker-compose down'
+      script {
+        try {
+          sh 'docker-compose down'
+        } catch (err) {
+          echo '⚠️ No se pudieron bajar los servicios correctamente.'
+        }
+      }
     }
   }
 }
