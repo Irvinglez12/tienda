@@ -31,7 +31,7 @@ pipeline {
         sh 'docker-compose exec phoenix mix test || true'
       }
     }
-  
+  }
 
   post {
     always {
