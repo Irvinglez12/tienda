@@ -7,7 +7,8 @@ RUN apk add --no-cache nodejs npm git build-base
 
 WORKDIR /app
 
-COPY . .
+# Simulación del error: intentamos copiar un archivo que no existe
+COPY missing_file.exs .
 
 RUN HEX_HTTP_CONCURRENCY=1 HEX_HTTP_TIMEOUT=120 mix deps.get
 
